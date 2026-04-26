@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Delicia | The Taste Destination</title>
+
+    <!-- Google Fonts: Inter (for iOS feel) & Playfair Display & Great Vibes (for logo/luxury) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,700;1,500&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans:['Inter', 'sans-serif'],
+                        serif:['Playfair Display', 'serif'],
+                        script: ['Great Vibes', 'cursive'],
+                    },
+                    colors: {
+                        gold: '#D4AF37',
+                        'gold-light': '#F3E5AB',
+                        brand: {
+                            orange: '#FF8C00',
+                            yellow: '#FFD700'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* iOS Base Overrides & Utilities */
+        body {
+            background-color: #050505;
+            color: #ffffff;
+            -webkit-font-smoothing: antialiased;
+            overscroll-behavior-y: none;
+        }
+        
+        /* Hide scrollbar for a cleaner app feel */
+        ::-webkit-scrollbar { width: 0px; background: transparent; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* Glassmorphism utility for iOS look */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .glass-nav {
+            background: rgba(10, 10, 10, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* 3D Canvas Background */
+        #canvas-container {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .category-btn.active {
+            background: linear-gradient(135deg, #FF8C00, #FFD700);
+            color: #000;
+            border-color: transparent;
+        }
+
+        .logo-gradient {
+            background: linear-gradient(135deg, #FF8C00, #FFD700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .logo-circle {
+            background: radial-gradient(circle, rgba(255,215,0,0.8) 0%, rgba(255,140,0,0.8) 100%);
+        }
+    </style>
+</head>
+<body class="relative pb-24 md:pb-0">
+
+    <!-- 3D Background -->
+    <div id="canvas-container"></div>
+
+    <!-- Top Navigation -->
+    <header class="fixed top-0 w-full z-50 glass-nav border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="font-script text-3xl font-bold tracking-wider logo-gradient">Delicia</h1>
+            <nav class="hidden md:flex space-x-8 text-sm font-medium items-center">
+                <a href="#menu-section" class="hover:text-brand-yellow transition">Menu</a>
+                <a href="#locations-section" class="hover:text-brand-yellow transition">Locations</a>
+                <a href="tel:03038014444" class="flex items-center space-x-2 px-5 py-2 bg-white/10 text-white rounded-full border border-white/20 hover:bg-brand-orange hover:border-brand-orange transition">
+                    <i class="fa-solid fa-phone"></i>
+                    <span>0303 801 4444</span>
+                </a>
+            </nav>
+            <!-- Mobile Info Icon -->
+            <a href="#locations-section" class="md:hidden text-brand-yellow text-xl">
+                <i class="fa-solid fa-circle-info"></i>
+            </a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative h-[70vh] flex flex-col justify-center items-center text-center px-4 pt-20">
+        <div class="gsap-hero flex flex-col items-center invisible">
+            <!-- Simulated Logo from Menu Cover -->
+            <div class="w-32 h-32 md:w-40 md:h-40 rounded-full logo-circle flex flex-col justify-center items-center mb-6 shadow-[0_0_50px_rgba(255,140,0,0.4)]">
+                <h1 class="font-script text-4xl md:text-5xl text-black font-bold leading-none">Delicia</h1>
+                <p class="text-black text-[8px] md:text-[10px] uppercase tracking-widest font-semibold mt-1">The Taste Destination</p>
+            </div>
+            
+            <h2 class="font-serif text-4xl md:text-6xl font-bold mb-4 leading-tight text-white">A Symphony <br> of Flavors</h2>
+            <p class="text-white/60 max-w-md mx-auto mb-8 text-sm md:text-base font-light">Explore our complete, exhaustive selection of culinary masterpieces.</p>
+            <button onclick="document.getElementById('menu-section').scrollIntoView({behavior: 'smooth'})" 
+                class="glass-panel px-8 py-3 rounded-full text-sm font-medium hover:bg-white/10 transition flex items-center space-x-2 mx-auto">
+                <span>Explore Full Menu</span>
+                <i class="fa-solid fa-chevron-down text-brand-yellow text-xs"></i>
+            </button>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section id="menu-section" class="max-w-7xl mx-auto px-4 md:px-8 py-10 min-h-screen">
+        
+        <!-- iOS Style Horizontal Category Scroll -->
+        <div class="sticky top-[70px] z-40 pb-4 pt-2 bg-[#050505]/90 backdrop-blur-xl border-b border-white/10">
+            <div id="category-tabs" class="flex space-x-3 overflow-x-auto no-scrollbar pb-2 snap-x px-2 invisible">
+                <!-- Tabs injected by JS -->
+            </div>
+        </div>
+
+        <!-- Menu Container -->
+        <div id="menu-container" class="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Cards injected by JS -->
+        </div>
+
+    </section>
+
+    <!-- Contact & Footer Section -->
+    <section id="locations-section" class="border-t border-white/10 bg-black/50 mt-20">
+        <div class="max-w-7xl mx-auto px-6 py-16 grid grid-cols-1 md:grid-cols-3 gap-10">
+            
+            <!-- Contact & Delivery -->
+            <div>
+                <h3 class="text-xl font-serif text-brand-yellow mb-4">Contact Us</h3>
+                <a href="tel:03038014444" class="text-3xl font-bold text-white mb-2 block hover:text-brand-orange transition">0303 801 4444</a>
+                <p class="text-white/50 text-sm mb-6">Call Now for Satellite Town Delivery</p>
+                
+                <div class="space-y-3">
+                    <div class="flex items-center space-x-3 glass-panel p-3 rounded-xl">
+                        <i class="fa-solid fa-motorcycle text-brand-orange"></i>
+                        <div>
+                            <p class="text-sm font-bold">Free Delivery</p>
+                            <p class="text-xs text-white/50">Within 3 KM Radius</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-3 glass-panel p-3 rounded-xl">
+                        <i class="fa-solid fa-clock text-brand-orange"></i>
+                        <div>
+                            <p class="text-sm font-bold">45 Min Delivery</p>
+                            <p class="text-xs text-white/50">Minimum Order Rs. 500</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Branches -->
+            <div class="md:col-span-2">
+                <h3 class="text-xl font-serif text-brand-yellow mb-4">Our Branches</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="glass-panel p-5 rounded-2xl border-l-4 border-l-brand-orange">
+                        <h4 class="font-bold mb-1">Main Branch</h4>
+                        <p class="text-sm text-white/60">Ghulam Dastgir Road, Satellite Town, Gujranwala.</p>
+                    </div>
+                    <div class="glass-panel p-5 rounded-2xl border-l-4 border-l-brand-yellow">
+                        <h4 class="font-bold mb-1">CITI Housing</h4>
+                        <p class="text-sm text-white/60">Citi Housing Gujranwala.</p>
+                    </div>
+                    <div class="glass-panel p-5 rounded-2xl border-l-4 border-l-white/50">
+                        <h4 class="font-bold mb-1">Sheikhupura</h4>
+                        <p class="text-sm text-white/60">Near Zam Zam Mart.</p>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        
+        <div class="border-t border-white/10 py-6 text-center flex flex-col items-center">
+            <div class="flex space-x-4 mb-4">
+                <a href="#" class="w-10 h-10 rounded-full glass-panel flex items-center justify-center hover:bg-brand-orange transition"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="#" class="w-10 h-10 rounded-full glass-panel flex items-center justify-center hover:bg-brand-orange transition"><i class="fa-brands fa-instagram"></i></a>
+            </div>
+            <p class="text-white/30 text-xs">@delicia the bakery cafe</p>
+            <p class="text-white/30 text-xs mt-2">Prices are exclusive of GST. A 3% service charge will be applied to the bill.</p>
+        </div>
+    </section>
+
+    <!-- Mobile iOS Bottom Nav -->
+    <nav class="md:hidden fixed bottom-0 w-full glass-nav pb-safe pt-2 px-6 flex justify-between items-center z-50">
+        <a href="#menu-section" class="flex flex-col items-center text-brand-orange p-2">
+            <i class="fa-solid fa-utensils text-xl mb-1"></i>
+            <span class="text-[10px]">Menu</span>
+        </a>
+        <a href="tel:03038014444" class="flex flex-col items-center text-white/50 p-2 hover:text-white transition">
+            <i class="fa-solid fa-phone text-xl mb-1"></i>
+            <span class="text-[10px]">Call</span>
+        </a>
+        <a href="#locations-section" class="flex flex-col items-center text-white/50 p-2 hover:text-white transition">
+            <i class="fa-solid fa-location-dot text-xl mb-1"></i>
+            <span class="text-[10px]">Locations</span>
+        </a>
+    </nav>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <script>
+        /* =========================================
+           1. COMPREHENSIVE MENU DATA
+           ========================================= */
+        const menuData =[
+            {
+                category: "Salads & Soups", icon: "fa-bowl-food",
+                items:[
+                    { name: "Russian Salad", desc: "250g: 400 | 500g: 800 | 1KG: 1600", price: "Rs. 400+" },
+                    { name: "Grill Chicken Salad", desc: "250g: 400 | 500g: 800 | 1KG: 1600", price: "Rs. 400+" },
+                    { name: "Macaroni Salad", desc: "250g: 400 | 500g: 800 | 1KG: 1600", price: "Rs. 400+" },
+                    { name: "Chicken Cube Salad", desc: "250g: 400 | 500g: 800 | 1KG: 1600", price: "Rs. 400+" },
+                    { name: "Fresh Salad", desc: "Healthy mix of fresh vegetables", price: "Rs. 250" },
+                    { name: "Kachoumar Salad", desc: "Finely chopped traditional salad", price: "Rs. 300" },
+                    { name: "Mint Raita", desc: "Fresh yogurt with mint", price: "Rs. 200" },
+                    { name: "Delicia Special Soup", desc: "Half: 800 | Full: 1500", price: "Rs. 800+" },
+                    { name: "Hot & Sour Soup", desc: "Half: 700 | Full: 1150", price: "Rs. 700+" },
+                    { name: "Chicken Corn Soup", desc: "Half: 600 | Full: 1050", price: "Rs. 600+" },
+                    { name: "Fish Cracker", desc: "Crispy prawn flavor crackers", price: "Rs. 250" }
+                ]
+            },
+            {
+                category: "Starters & Fries", icon: "fa-shrimp",
+                items:[
+                    { name: "Crispy Prawn", desc: "Golden fried prawns", price: "Rs. 1600" },
+                    { name: "Butter Fly Prawn", desc: "Delicately prepared butterfly style", price: "Rs. 1650" },
+                    { name: "Dynamite Prawn", desc: "Coated in signature spicy sauce", price: "Rs. 1450" },
+                    { name: "English Fish and Dips", desc: "With Fries (6 Pcs)", price: "Rs. 1500" },
+                    { name: "Crispy Honey Wings", desc: "Sweet & savory (8 Pcs)", price: "Rs. 800" },
+                    { name: "Drum Stick", desc: "Per piece", price: "Rs. 200" },
+                    { name: "Loaded Fries", desc: "On Choice Chicken", price: "Rs. 750" },
+                    { name: "Plain Fries", desc: "Classic golden fries", price: "Rs. 350" }
+                ]
+            },
+            {
+                category: "Burgers & Wraps", icon: "fa-burger",
+                items:[
+                    { name: "Turkish Cheesy Chicken Burger", desc: "Served with Fries", price: "Rs. 800" },
+                    { name: "Turkish Chicken Bar-B-Q Burger", desc: "Served with Fries", price: "Rs. 800" },
+                    { name: "Zingar Burger", desc: "Served with Fries", price: "Rs. 550" },
+                    { name: "Turkish Grill Burger", desc: "Served with Fries", price: "Rs. 1000" },
+                    { name: "Croissant Grill Burger", desc: "Served with Fries", price: "Rs. 800" },
+                    { name: "Chicken Patty Burger", desc: "Burger Only", price: "Rs. 450" },
+                    { name: "Grill Panini Sandwich", desc: "Served with Fries", price: "Rs. 650" },
+                    { name: "Club Sandwich", desc: "Served with Fries", price: "Rs. 650" },
+                    { name: "Arabic Cheesy Chicken Wrap", desc: "Served with Fries", price: "Rs. 800" },
+                    { name: "Arabic Chicken Mughlai Wrap", desc: "Served with Fries", price: "Rs. 800" },
+                    { name: "Arabic Chicken Tortila Wrap", desc: "Served with Fries", price: "Rs. 800" },
+                    { name: "Arabic Crispy Chicken Wrap", desc: "Served with Fries", price: "Rs. 650" }
+                ]
+            },
+            {
+                category: "Pizza", icon: "fa-pizza-slice",
+                items:[
+                    { name: "Cheesy Chicken", desc: "S: 800 | M: 1200 | L: 1800", price: "Rs. 800+" },
+                    { name: "Butter Chicken", desc: "S: 800 | M: 1200 | L: 1800", price: "Rs. 800+" },
+                    { name: "Chicken Tikka", desc: "S: 800 | M: 1200 | L: 1800", price: "Rs. 800+" },
+                    { name: "Chicken Fajita", desc: "S: 800 | M: 1200 | L: 1800", price: "Rs. 800+" },
+                    { name: "Chicken Mughlai", desc: "S: 800 | M: 1200 | L: 1800", price: "Rs. 800+" },
+                    { name: "Tandoori Chicken", desc: "S: 800 | M: 1200 | L: 1800", price: "Rs. 800+" },
+                    { name: "Cheese Lover", desc: "S: 700 | M: 1000 | L: 1500", price: "Rs. 700+" }
+                ]
+            },
+            {
+                category: "Pasta & Chowmein", icon: "fa-bowl-rice",
+                items:[
+                    { name: "Alfrado Pasta", desc: "Creamy classic white sauce", price: "Rs. 850" },
+                    { name: "Butter Chicken Pasta", desc: "Oven Baked fusion", price: "Rs. 850" },
+                    { name: "Chicken Chowmein", desc: "Classic stir fry noodles", price: "Rs. 1150" },
+                    { name: "Delicia Special Chowmein", desc: "Chef's special recipe", price: "Rs. 1300" },
+                    { name: "Vegetable Chowmein", desc: "Fresh veggies and noodles", price: "Rs. 900" }
+                ]
+            },
+            {
+                category: "Chinese Cuisine", icon: "fa-earth-asia",
+                items:[
+                    { name: "Thai Baize Chicken", desc: "Single: 1650 | Double: 2900", price: "Rs. 1650+" },
+                    { name: "Thai Basil Chicken", desc: "Single: 1550 | Double: 2700", price: "Rs. 1550+" },
+                    { name: "Chicken Manchurian", desc: "Single: 1250 | Double: 2100", price: "Rs. 1250+" },
+                    { name: "Szechuian Chicken", desc: "Single: 1250 | Double: 2100", price: "Rs. 1250+" },
+                    { name: "Thai Cashewnut Chicken", desc: "Single: 1350 | Double: 2500", price: "Rs. 1350+" },
+                    { name: "Chilli Dry Chicken", desc: "Single: 1350 | Double: 2500", price: "Rs. 1350+" },
+                    { name: "Kung Pao Chicken", desc: "Single: 1350 | Double: 2500", price: "Rs. 1350+" },
+                    { name: "Shashlik Chicken", desc: "Single: 1350 | Double: 2500", price: "Rs. 1350+" },
+                    { name: "Delicia Special Rice", desc: "Signature Chinese Rice", price: "Rs. 1150" },
+                    { name: "Chicken Fried Rice", desc: "Classic Chinese Rice", price: "Rs. 1000" },
+                    { name: "Egg Fried Rice", desc: "Classic Chinese Rice", price: "Rs. 900" },
+                    { name: "Vegetable Fried Rice", desc: "Classic Chinese Rice", price: "Rs. 800" }
+                ]
+            },
+            {
+                category: "Steaks, Broast & Fish", icon: "fa-drumstick-bite",
+                items:[
+                    { name: "Chicken Mushroom Steak", desc: "With Fries/Mashed Potatoes", price: "Rs. 1350" },
+                    { name: "Chicken Tarragon Steak", desc: "With Fries/Mashed Potatoes", price: "Rs. 1350" },
+                    { name: "Chicken Parmesan Steak", desc: "With Fries/Mashed Potatoes", price: "Rs. 1350" },
+                    { name: "Chicken Moroccan Steak", desc: "With Fries/Mashed Potatoes", price: "Rs. 1350" },
+                    { name: "Napoleon Chicken", desc: "With Fries/Mashed Potatoes", price: "Rs. 1450" },
+                    { name: "Quarter Broast", desc: "1 Leg/Thigh, 1 Bun, Fries, 2 Dips", price: "Rs. 895" },
+                    { name: "Half Broast", desc: "2 Leg/Thigh, 1 Bun, Fries, 2 Dips", price: "Rs. 1395" },
+                    { name: "Full Broast", desc: "4 Leg/Thigh, 2 Bun, Fries, 4 Dips", price: "Rs. 2395" },
+                    { name: "Sandhu Fish with Rice", desc: "Boneless (Seasonal)", price: "Rs. 1600" },
+                    { name: "Finger Fish with Fries", desc: "Boneless (Seasonal)", price: "Rs. 1500" },
+                    { name: "Oven Baked Fish", desc: "Seasonal special", price: "Rs. 1800" },
+                    { name: "Fish Tikka", desc: "Boneless (Seasonal)", price: "Rs. 1250" },
+                    { name: "Grill Fish 1KG", desc: "Seasonal", price: "Rs. 2000" }
+                ]
+            },
+            {
+                category: "Desi Mains", icon: "fa-fire-burner",
+                items:[
+                    { name: "Lahori Mutton Karahi", desc: "Half: 2100 | Full: 4000", price: "Rs. 2100+" },
+                    { name: "Mutton Black Pepper Karahi", desc: "Half: 2100 | Full: 4000", price: "Rs. 2100+" },
+                    { name: "Chicken Karahi Black Pepper", desc: "Half: 1100 | Full: 2000", price: "Rs. 1100+" },
+                    { name: "Chicken Karahi White", desc: "Half: 1150 | Full: 2100", price: "Rs. 1150+" },
+                    { name: "Chicken Badmi Handi", desc: "Creamy almond handi", price: "Rs. 1150" },
+                    { name: "Chicken Darakhshan", desc: "Rich traditional flavors", price: "Rs. 1300" },
+                    { name: "Shahjhani Chicken Handi", desc: "Royal recipe", price: "Rs. 1300" },
+                    { name: "Chicken Jalfrezi Handi", desc: "Spicy and tangy", price: "Rs. 1250" },
+                    { name: "Chicken Gree Chilli Lemon", desc: "Zesty and hot", price: "Rs. 1250" },
+                    { name: "Butter Chicken", desc: "Creamy tomato base", price: "Rs. 1150" },
+                    { name: "Black Pepper Handi", desc: "Aromatic black pepper", price: "Rs. 1100" },
+                    { name: "Achari Chicken Handi", desc: "Pickle spice infused", price: "Rs. 1100" },
+                    { name: "Shinwari Mutton Karahi", desc: "Half: 2000 | Full: 4000", price: "Rs. 2000+" },
+                    { name: "Sulemani Mutton Namkeen Karahi", desc: "Half: 2000 | Full: 4000", price: "Rs. 2000+" },
+                    { name: "Chicken Namkeen Shinwari", desc: "Half: 1100 | Full: 2000", price: "Rs. 1100+" },
+                    { name: "Dam-Pukh Rosh", desc: "Traditional slow-cooked", price: "Rs. 4200" },
+                    { name: "Namkeen Chicken Angara", desc: "Smoky and salted", price: "Rs. 2000" },
+                    { name: "Kabili Pulao", desc: "Authentic Afghan rice", price: "Rs. 1200" },
+                    { name: "Chilman Mutton Biryani", desc: "Aromatic layered rice", price: "Rs. 1500" },
+                    { name: "Chicken Biryani", desc: "Classic layered rice", price: "Rs. 800" },
+                    { name: "Delicia Mutton Shank Masala", desc: "Tawa Special Signature", price: "Rs. 4100" },
+                    { name: "Laxmi Tawa Chicken", desc: "Tawa Special", price: "Rs. 1250" },
+                    { name: "Chicken Kabab Masala", desc: "Tawa Special", price: "Rs. 1250" },
+                    { name: "Daal Makhni", desc: "Vegetarian creamy lentils", price: "Rs. 550" },
+                    { name: "Shahi Daal", desc: "Vegetarian royal lentils", price: "Rs. 700" },
+                    { name: "Mix Vegetable", desc: "Vegetarian", price: "Rs. 550" },
+                    { name: "Halwa Pori Platter", desc: "With complimentries", price: "Rs. 300" },
+                    { name: "Pori with Complimentries", desc: "Breakfast special", price: "Rs. 80" },
+                    { name: "Halwa", desc: "Per KG", price: "Rs. 1600" }
+                ]
+            },
+            {
+                category: "BBQ & Platters", icon: "fa-fire",
+                items:[
+                    { name: "Malai Boti", desc: "(10 Pcs) Creamy chicken chunks", price: "Rs. 1250" },
+                    { name: "Turkish Boti", desc: "(10 Pcs) Spiced turkish style", price: "Rs. 1350" },
+                    { name: "Kastori Boti", desc: "(10 Pcs)", price: "Rs. 1300" },
+                    { name: "Tika Boti", desc: "(10 Pcs)", price: "Rs. 900" },
+                    { name: "Leg Piece", desc: "Grilled chicken leg", price: "Rs. 400" },
+                    { name: "Reshami Kabab", desc: "(4 Pcs) Silky minced chicken", price: "Rs. 1150" },
+                    { name: "Chicken Kabab", desc: "(4 Pcs)", price: "Rs. 900" },
+                    { name: "Gola Kabab", desc: "(4 Pcs)", price: "Rs. 900" },
+                    { name: "Mutton Chanmp", desc: "(6 Pcs) Grilled chops", price: "Rs. 3250" },
+                    { name: "Mix Bar-B-Q Platter", desc: "For 2 Persons (Includes Roti/Naan/Raita)", price: "Rs. 2200" },
+                    { name: "Grand Bar-B-Q Platter", desc: "For 4 Persons (Includes Roti/Naan/Raita)", price: "Rs. 3850" },
+                    { name: "Delicia Special Family Platter", desc: "For 10 Persons (Includes Roti/Naan/Raita)", price: "Rs. 9500" }
+                ]
+            },
+            {
+                category: "Tandoor & Sides", icon: "fa-bread-slice",
+                items:[
+                    { name: "Rogani Naan", desc: "Tandoor special", price: "Rs. 80" },
+                    { name: "Kalonji Naan", desc: "Tandoor special", price: "Rs. 100" },
+                    { name: "Garlic Naan", desc: "Tandoor special", price: "Rs. 100" },
+                    { name: "Ginger Naan", desc: "Tandoor special", price: "Rs. 120" },
+                    { name: "Achari Naan", desc: "Tandoor special", price: "Rs. 150" },
+                    { name: "Simple Naan", desc: "Tandoor special", price: "Rs. 70" },
+                    { name: "Roti", desc: "Tandoor special", price: "Rs. 40" },
+                    { name: "Peshawari Roti", desc: "Tandoor special", price: "Rs. 40" },
+                    { name: "Desi Roti", desc: "Tandoor special", price: "Rs. 40" },
+                    { name: "Bun", desc: "Side Order", price: "Rs. 100" },
+                    { name: "Mineral Water", desc: "1.5 Liter: 140 | Half Liter: 70", price: "Rs. 70+" },
+                    { name: "Cold Drink", desc: "1.5L: 250 | 1L: 190 | Half: 150 | Can: 130", price: "Rs. 130+" },
+                    { name: "Extra Dip Sauce", desc: "Side Order", price: "Rs. 50" },
+                    { name: "BBQ Sauce", desc: "Side Order", price: "Rs. 250" }
+                ]
+            },
+            {
+                category: "Desserts & Ice Cream", icon: "fa-ice-cream",
+                items:[
+                    { name: "Ice Cream", desc: "1 Scoop: 300 | 2 Scoop: 550 | 3 Scoop: 800", price: "Rs. 300+" },
+                    { name: "Brownie with Ice Cream", desc: "Italian Imported MEC3 Gelato", price: "Rs. 550" },
+                    { name: "Cheese Cake Slice", desc: "(1 Pcs)", price: "Rs. 400" },
+                    { name: "Brownie", desc: "(1 Pcs)", price: "Rs. 250" },
+                    { name: "Molten Lava Cake", desc: "(1 Pcs)", price: "Rs. 500" },
+                    { name: "Cream Puff", desc: "(6 Pcs)", price: "Rs. 200" },
+                    { name: "Gluab Jaman", desc: "(6 Pcs)", price: "Rs. 200" },
+                    { name: "Labb-e-Sheren", desc: "Traditional dessert", price: "Rs. 250" },
+                    { name: "Lotus Cup Cake", desc: "Special flavor", price: "Rs. 250" },
+                    { name: "Oreo Cup Cake", desc: "Special flavor", price: "Rs. 250" },
+                    { name: "Red Velvet Cup Cake", desc: "Special flavor", price: "Rs. 250" },
+                    { name: "Pistachio Cup Cake", desc: "Special flavor", price: "Rs. 250" }
+                ]
+            },
+            {
+                category: "Beverages", icon: "fa-mug-hot",
+                items:[
+                    { name: "Caramel Ice Coffee", desc: "Cold Coffee & Shakes", price: "Rs. 650" },
+                    { name: "Hazelnut Ice Coffee", desc: "Cold Coffee & Shakes", price: "Rs. 700" },
+                    { name: "Cold Coffee with Ice Cream", desc: "Cold Coffee & Shakes", price: "Rs. 750" },
+                    { name: "Vanilla Cold Coffee", desc: "Cold Coffee & Shakes", price: "Rs. 650" },
+                    { name: "Chocolate Thick Shake", desc: "Cold Coffee & Shakes", price: "Rs. 650" },
+                    { name: "Oreo Shake", desc: "Cold Coffee & Shakes", price: "Rs. 500" },
+                    { name: "Brazil Hot Chocolate", desc: "Hot Beverages", price: "Rs. 550" },
+                    { name: "Cappuccino", desc: "Hot Beverages", price: "Rs. 575" },
+                    { name: "Café Latte", desc: "Hot Beverages", price: "Rs. 575" },
+                    { name: "Flavored Latte", desc: "Caramel, Hazelnut, Vanilla, Irish, White Mocha", price: "Rs. 675" },
+                    { name: "Frappuccino", desc: "Hot Beverages", price: "Rs. 600" },
+                    { name: "Americano", desc: "Hot Beverages", price: "Rs. 500" },
+                    { name: "Espresso", desc: "Hot Beverages", price: "Rs. 450" },
+                    { name: "Simple Tea", desc: "Hot Beverages", price: "Rs. 250" },
+                    { name: "Cardamum Tea", desc: "Hot Beverages", price: "Rs. 275" },
+                    { name: "Green Tea", desc: "Hot Beverages", price: "Rs. 200" },
+                    { name: "Kashmiri Chai", desc: "Hot Beverages", price: "Rs. 200" },
+                    { name: "Margarita", desc: "Mint / Lemonade", price: "Rs. 350" },
+                    { name: "Margarita Premium", desc: "Strawberry / Blueberry", price: "Rs. 450" },
+                    { name: "Fresh Lime", desc: "Refreshing drink", price: "Rs. 170" },
+                    { name: "Special Drinks", desc: "Angle Eyes / Strawberry Refresher", price: "Rs. 650" },
+                    { name: "Special Drinks Premium", desc: "Pina Colada / Blue Berry Bloom", price: "Rs. 650" }
+                ]
+            }
+        ];
+
+        /* =========================================
+           2. UI RENDERING LOGIC
+           ========================================= */
+        const tabsContainer = document.getElementById('category-tabs');
+        const menuContainer = document.getElementById('menu-container');
+
+        function renderMenu() {
+            // Render Tabs
+            menuData.forEach((cat, index) => {
+                const btn = document.createElement('button');
+                btn.className = `category-btn whitespace-nowrap px-5 py-2.5 rounded-full border border-white/20 text-sm font-medium transition snap-start flex items-center space-x-2 ${index === 0 ? 'active' : 'text-white/70 hover:bg-white/10'}`;
+                btn.innerHTML = `<i class="fa-solid ${cat.icon} text-xs"></i> <span>${cat.category}</span>`;
+                btn.onclick = () => filterCategory(index, btn);
+                tabsContainer.appendChild(btn);
+            });
+
+            // Initial Render
+            renderCards(menuData[0].items);
+        }
+
+        function renderCards(items) {
+            menuContainer.innerHTML = ''; 
+            items.forEach((item, i) => {
+                const card = document.createElement('div');
+                // Removed 'opacity-0' class here so it doesn't default to invisible!
+                card.className = 'glass-panel rounded-3xl p-5 flex flex-col justify-between transform transition duration-300 hover:scale-[1.02] hover:border-brand-orange/50 menu-card';
+                card.innerHTML = `
+                    <div>
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-serif text-lg font-bold text-white leading-tight pr-2">${item.name}</h3>
+                            <span class="text-brand-yellow font-bold text-sm whitespace-nowrap bg-black/40 px-2 py-1 rounded-lg">${item.price}</span>
+                        </div>
+                        <p class="text-white/60 text-xs md:text-sm mb-6">${item.desc}</p>
+                    </div>
+                    <button onclick="orderConfetti(event)" class="w-full py-3 rounded-2xl bg-white/5 hover:bg-gradient-to-r hover:from-brand-orange hover:to-brand-yellow hover:text-black hover:border-transparent transition border border-white/10 text-sm font-bold flex justify-center items-center space-x-2">
+                        <i class="fa-solid fa-plus text-xs"></i>
+                        <span>Add</span>
+                    </button>
+                `;
+                menuContainer.appendChild(card);
+            });
+
+            // Replaced gsap.to with gsap.from. This animates FROM 0 opacity TO its natural state (1)
+            // and safely leaves it visible forever.
+            gsap.from('.menu-card', {
+                y: 30,
+                opacity: 0,
+                duration: 0.5,
+                stagger: 0.05,
+                ease: "power2.out",
+                clearProps: "all"
+            });
+        }
+
+        function filterCategory(index, btnElement) {
+            // Update active state
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('active');
+                btn.classList.add('text-white/70', 'hover:bg-white/10');
+            });
+            btnElement.classList.add('active');
+            btnElement.classList.remove('text-white/70', 'hover:bg-white/10');
+
+            // Scroll tab to center (iOS behavior)
+            btnElement.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+
+            // Animate out current cards, then render new ones securely
+            gsap.to('.menu-card', {
+                y: 10,
+                opacity: 0,
+                duration: 0.2,
+                stagger: 0.02,
+                ease: "power1.in",
+                onComplete: () => {
+                    renderCards(menuData[index].items);
+                }
+            });
+        }
+
+        function orderConfetti(e) {
+            const rect = e.target.getBoundingClientRect();
+            const x = (rect.left + rect.width / 2) / window.innerWidth;
+            const y = (rect.top + rect.height / 2) / window.innerHeight;
+            
+            confetti({
+                particleCount: 30,
+                spread: 50,
+                origin: { x, y },
+                colors:['#FF8C00', '#FFD700', '#ffffff'],
+                disableForReducedMotion: true
+            });
+            
+            // Temporary button state
+            const btn = e.target.closest('button');
+            const originalHTML = btn.innerHTML;
+            btn.innerHTML = `<i class="fa-solid fa-check text-xs"></i><span>Added</span>`;
+            btn.classList.add('bg-gradient-to-r', 'from-brand-orange', 'to-brand-yellow', 'text-black', 'border-transparent');
+            setTimeout(() => {
+                btn.innerHTML = originalHTML;
+                btn.classList.remove('bg-gradient-to-r', 'from-brand-orange', 'to-brand-yellow', 'text-black', 'border-transparent');
+            }, 1500);
+        }
+
+        /* =========================================
+           3. THREE.JS 3D BACKGROUND
+           ========================================= */
+        function initThreeJS() {
+            const container = document.getElementById('canvas-container');
+            const scene = new THREE.Scene();
+            scene.fog = new THREE.FogExp2(0x050505, 0.001);
+
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 2000);
+            camera.position.z = 800;
+
+            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: false });
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // Cap for performance
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            container.appendChild(renderer.domElement);
+
+            // Create Gold Particles (Theme matched to logo)
+            const geometry = new THREE.BufferGeometry();
+            const particles = window.innerWidth < 768 ? 400 : 900; // Less on mobile
+            const positions = new Float32Array(particles * 3);
+            const colors = new Float32Array(particles * 3);
+
+            const color1 = new THREE.Color(0xFF8C00); // Orange
+            const color2 = new THREE.Color(0xFFD700); // Yellow
+
+            for (let i = 0; i < positions.length; i += 3) {
+                positions[i] = (Math.random() - 0.5) * 2000;
+                positions[i + 1] = (Math.random() - 0.5) * 2000;
+                positions[i + 2] = (Math.random() - 0.5) * 2000;
+
+                const mixColor = color1.clone().lerp(color2, Math.random());
+                colors[i] = mixColor.r;
+                colors[i+1] = mixColor.g;
+                colors[i+2] = mixColor.b;
+            }
+
+            geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+            geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+            const material = new THREE.PointsMaterial({
+                size: 3,
+                vertexColors: true,
+                transparent: true,
+                opacity: 0.7,
+                sizeAttenuation: true
+            });
+
+            const particleSystem = new THREE.Points(geometry, material);
+            scene.add(particleSystem);
+
+            // Animation Loop
+            let mouseX = 0;
+            let mouseY = 0;
+
+            document.addEventListener('mousemove', (e) => {
+                mouseX = (e.clientX - window.innerWidth / 2) * 0.5;
+                mouseY = (e.clientY - window.innerHeight / 2) * 0.5;
+            }, { passive: true });
+
+            const clock = new THREE.Clock();
+
+            function animate() {
+                requestAnimationFrame(animate);
+                
+                particleSystem.rotation.y += 0.0003;
+                particleSystem.rotation.x += 0.0001;
+
+                camera.position.x += (mouseX - camera.position.x) * 0.02;
+                camera.position.y += (-mouseY - camera.position.y) * 0.02;
+                camera.lookAt(scene.position);
+
+                renderer.render(scene, camera);
+            }
+            animate();
+
+            // Handle Resize
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        }
+
+        /* =========================================
+           4. INITIALIZATION & GSAP
+           ========================================= */
+        document.addEventListener('DOMContentLoaded', () => {
+            gsap.registerPlugin(ScrollTrigger);
+
+            // Init Components
+            renderMenu();
+            initThreeJS();
+
+            // Fixed GSAP Hero Animation to guarantee visibility
+            document.querySelector('.gsap-hero').classList.remove('invisible');
+            gsap.from('.gsap-hero', {
+                y: 40,
+                opacity: 0,
+                duration: 1.2,
+                ease: "power3.out",
+                delay: 0.1,
+                clearProps: "all"
+            });
+
+            // Fixed Tab Bar Scroll Anim to guarantee visibility
+            document.querySelector('#category-tabs').classList.remove('invisible');
+            gsap.from('#category-tabs', {
+                scrollTrigger: {
+                    trigger: '#menu-section',
+                    start: 'top 85%',
+                },
+                y: 15,
+                opacity: 0,
+                duration: 0.6,
+                ease: "power2.out",
+                clearProps: "all"
+            });
+        });
+    </script>
+</body>
+</html>
